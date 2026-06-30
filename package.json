@@ -21,11 +21,11 @@
     "azure-devops-extension-api": "^4.258.0",
     "azure-devops-extension-sdk": "^4.0.2",
     "azure-devops-ui": "^2.259.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-monaco-editor": "^0.59.0",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.4.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.20",
@@ -50,8 +50,8 @@
     "ts-loader": "^9.5.2",
     "typescript": "^5.9.2",
     "typescript-styled-plugin": "^0.18.3",
-    "webpack": "^5.101.0",
+    "webpack": "^5.108.3",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2"
+    "webpack-dev-server": "^5.2.5"
   }
 }
