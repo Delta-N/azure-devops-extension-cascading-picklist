@@ -1,16 +1,12 @@
 {
   "manifestVersion": 1.0,
-  "id": "cascading-picklists-extension",
-  "publisher": "ms-devlabs",
-  "version": "0.1.16",
-  "name": "Cascading Lists",
+  "id": "cascading-lists-compound",
+  "publisher": "Delta-NBV",
+  "version": "0.1.26",
+  "name": "Cascading Lists Compound",
   "description": "Extension allows to define cascading behavior for picklists in work item form.",
-  "categories": [
-    "Azure Boards"
-  ],
-  "tags": [
-    "Cascading Picklists"
-  ],
+  "categories": ["Azure Boards"],
+  "tags": ["Cascading Picklists"],
   "icons": {
     "default": "images/icon-default.png",
     "large": "images/icon-large.png"
@@ -32,32 +28,25 @@
     "type": "git",
     "url": "https://github.com/microsoft/azure-devops-extension-cascading-picklist"
   },
-  "scopes": [
-    "vso.work",
-    "vso.work_write"
-  ],
+  "scopes": ["vso.work", "vso.work_write"],
   "contributions": [
     {
-      "id": "cascading-lists-wit-observer",
+      "id": "cascading-lists-compound-wit-observer",
       "type": "ms.vss-work-web.work-item-notifications",
       "description": "Observer modifies behavior of a work item form to support cascading picklists.",
-      "targets": [
-        "ms.vss-work-web.work-item-form"
-      ],
+      "targets": ["ms.vss-work-web.work-item-form"],
       "properties": {
-        "name": "Cascading Lists Observer",
+        "name": "Cascading Lists Compound Observer",
         "uri": "/dist/observer.html"
       }
     },
     {
-      "id": "cascading-lists-config-hub",
+      "id": "cascading-lists-compound-config-hub",
       "type": "ms.vss-web.hub",
       "description": "Configuration hub for a cascading lists",
-      "targets": [
-        "ms.vss-web.project-admin-hub-group"
-      ],
+      "targets": ["ms.vss-web.project-admin-hub-group"],
       "properties": {
-        "name": "Cascading Lists",
+        "name": "Cascading Lists Compound",
         "order": 1,
         "uri": "/dist/confighub.html"
       }
@@ -78,3 +67,4 @@
     }
   ]
 }
+

@@ -1,6 +1,4 @@
 {
-    "galleryFlags": [
-        "Public"
-    ],
-    "public": true
+  "galleryFlags": ["Public"],
+  "public": false
 }
