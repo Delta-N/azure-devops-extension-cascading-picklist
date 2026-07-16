@@ -21,19 +21,19 @@
     "azure-devops-extension-api": "^4.258.0",
     "azure-devops-extension-sdk": "^4.0.2",
     "azure-devops-ui": "^2.259.0",
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-monaco-editor": "^0.59.0",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.4.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.20",
     "@types/react": "^16.14.65",
     "@types/react-dom": "^16.9.25",
     "@types/styled-components": "^5.1.34",
-    "@typescript-eslint/eslint-plugin": "^8.39.0",
-    "@typescript-eslint/parser": "^8.39.0",
+    "@typescript-eslint/eslint-plugin": "^8.64.0",
+    "@typescript-eslint/parser": "^8.64.0",
     "css-loader": "^7.1.2",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
@@ -47,11 +47,11 @@
     "prettier": "^3.6.2",
     "source-map-loader": "^5.0.0",
     "style-loader": "^4.0.0",
-    "ts-loader": "^9.5.2",
+    "ts-loader": "^9.6.2",
     "typescript": "^5.9.2",
     "typescript-styled-plugin": "^0.18.3",
-    "webpack": "^5.101.0",
+    "webpack": "^5.108.4",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2"
+    "webpack-dev-server": "^6.0.0"
   }
 }
