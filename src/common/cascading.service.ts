@@ -50,7 +50,7 @@ class CascadingFieldsService {
 
     Object.entries(cascadeConfiguration).map(([fieldName, fieldValues]) => {
       let alters: string[] = [];
-      Object.values(fieldValues).map(cascadeDefinitions => {
+      Object.values(fieldValues).map((cascadeDefinitions) => {
         Object.entries(cascadeDefinitions).map(([field, optionValue]) => {
           alters.push(field);
           this.registerConditionDependents(field, optionValue);
@@ -77,8 +77,8 @@ class CascadingFieldsService {
     if (!this.isConditionalOptionList(optionValue)) {
       return;
     }
-    optionValue.forEach(rule => {
-      Object.keys(rule.when).forEach(conditionField => {
+    optionValue.forEach((rule) => {
+      Object.keys(rule.when).forEach((conditionField) => {
         if (!this.fieldDependents.hasOwnProperty(conditionField)) {
           this.fieldDependents[conditionField] = new Set<string>();
         }
@@ -128,7 +128,7 @@ class CascadingFieldsService {
   ): Promise<string[] | null> {
     if (typeof optionValue === 'string') {
       if (optionValue === FieldOptionsFlags.All) {
-        return (await this.workItemService.getAllowedFieldValues(field)).map(value =>
+        return (await this.workItemService.getAllowedFieldValues(field)).map((value) =>
           value.toString()
         );
       }
@@ -147,16 +147,10 @@ class CascadingFieldsService {
     return optionValue as string[];
   }
 
-  private getAffectedFields(fieldReferenceName: string, fieldValue: string): string[] {
-    if (!this.cascadeMap[fieldReferenceName].cascades.hasOwnProperty(fieldValue)) {
-      return [];
-    }
-    return Object.keys(this.cascadeMap[fieldReferenceName].cascades[fieldValue]);
-  }
-
   private async validateFilterOrClean(fieldReferenceName: string): Promise<boolean> {
-    const allowedValues: string[] = await (this
-      .workItemService as any).getFilteredAllowedFieldValues(fieldReferenceName);
+    const allowedValues: string[] = await (
+      this.workItemService as any
+    ).getFilteredAllowedFieldValues(fieldReferenceName);
     const fieldValue = (await this.workItemService.getFieldValue(fieldReferenceName)) as string;
     if (!allowedValues.includes(fieldValue)) {
       return this.workItemService.setFieldValue(fieldReferenceName, '');
@@ -164,10 +158,10 @@ class CascadingFieldsService {
   }
 
   public async resetAllCascades(): Promise<void[]> {
-    const fields = flatten(Object.values(this.cascadeMap).map(value => value.alters));
+    const fields = flatten(Object.values(this.cascadeMap).map((value) => value.alters));
     const fieldsToReset = new Set<string>(fields);
     return Promise.all(
-      Array.from(fieldsToReset).map(async fieldName => {
+      Array.from(fieldsToReset).map(async (fieldName) => {
         const values = await this.workItemService.getAllowedFieldValues(fieldName);
         await (this.workItemService as any).filterAllowedFieldValues(fieldName, values);
       })
@@ -179,7 +173,7 @@ class CascadingFieldsService {
 
     await Promise.all(
       flatten(
-        affectedFields.map(field => {
+        affectedFields.map((field) => {
           return Object.entries(this.cascadeMap).map(async ([alterField, cascade]) => {
             if (cascade.alters.includes(field)) {
               const fieldValue = (await this.workItemService.getFieldValue(alterField)) as string;
@@ -209,7 +203,7 @@ class CascadingFieldsService {
 
   public async cascadeAll(): Promise<void[][]> {
     return Promise.all(
-      Object.keys(this.cascadeMap).map(async field => this.performCascading(field))
+      Object.keys(this.cascadeMap).map(async (field) => this.performCascading(field))
     );
   }
 
@@ -217,16 +211,13 @@ class CascadingFieldsService {
     const affectedFields = new Set<string>();
 
     if (this.cascadeMap.hasOwnProperty(changedFieldReferenceName)) {
-      const changedFieldValue = (await this.workItemService.getFieldValue(
-        changedFieldReferenceName
-      )) as string;
-      this.getAffectedFields(changedFieldReferenceName, changedFieldValue).forEach(field =>
+      this.cascadeMap[changedFieldReferenceName].alters.forEach((field) =>
         affectedFields.add(field)
       );
     }
 
     if (this.fieldDependents.hasOwnProperty(changedFieldReferenceName)) {
-      this.fieldDependents[changedFieldReferenceName].forEach(field => affectedFields.add(field));
+      this.fieldDependents[changedFieldReferenceName].forEach((field) => affectedFields.add(field));
     }
 
     if (affectedFields.size === 0) {
@@ -236,7 +227,9 @@ class CascadingFieldsService {
     const fieldValues = await this.prepareCascadeOptions(Array.from(affectedFields));
 
     return Promise.all(
-      Object.entries(fieldValues).map(async ([fieldName, values]) => {
+      Array.from(affectedFields).map(async (fieldName) => {
+        // A field without a matching cascade rule offers no allowed values.
+        const values = fieldValues.hasOwnProperty(fieldName) ? fieldValues[fieldName] : [];
         await (this.workItemService as any).filterAllowedFieldValues(fieldName, values);
         await this.validateFilterOrClean(fieldName);
       })
@@ -262,19 +255,21 @@ class CascadeValidationService {
       const fields = await witRestClient.getFields(project.id);
       this.cachedFields = fields;
     }
-    const fieldList = this.cachedFields.map(field => field.referenceName);
+    const fieldList = this.cachedFields.map((field) => field.referenceName);
 
     // Check fields correctness for config root
-    let invalidFieldsTotal = Object.keys(cascades).filter(field => !fieldList.includes(field));
+    let invalidFieldsTotal = Object.keys(cascades).filter((field) => !fieldList.includes(field));
 
     // Check fields on the lower level of config
-    Object.values(cascades).map(fieldValues => {
-      Object.values(fieldValues).map(innerFields => {
-        const invalidFields = Object.keys(innerFields).filter(field => !fieldList.includes(field));
+    Object.values(cascades).map((fieldValues) => {
+      Object.values(fieldValues).map((innerFields) => {
+        const invalidFields = Object.keys(innerFields).filter(
+          (field) => !fieldList.includes(field)
+        );
         invalidFieldsTotal = [...invalidFieldsTotal, ...invalidFields];
 
         // Check fields referenced inside conditional option `when` clauses
-        Object.values(innerFields).map(optionValue => {
+        Object.values(innerFields).map((optionValue) => {
           if (
             Array.isArray(optionValue) &&
             optionValue.length > 0 &&
@@ -282,9 +277,9 @@ class CascadeValidationService {
             optionValue[0] !== null &&
             'when' in optionValue[0]
           ) {
-            (optionValue as IConditionalOption[]).map(rule => {
+            (optionValue as IConditionalOption[]).map((rule) => {
               const invalidConditionFields = Object.keys(rule.when || {}).filter(
-                field => !fieldList.includes(field)
+                (field) => !fieldList.includes(field)
               );
               invalidFieldsTotal = [...invalidFieldsTotal, ...invalidConditionFields];
             });
@@ -302,3 +297,4 @@ class CascadeValidationService {
 }
 
 export { CascadingFieldsService, CascadeValidationService, ICascadeValidatorError };
+
