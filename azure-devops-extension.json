@@ -2,7 +2,7 @@
   "manifestVersion": 1.0,
   "id": "cascading-lists-compound",
   "publisher": "Delta-NBV",
-  "version": "0.1.26",
+  "version": "0.1.28",
   "name": "Cascading Lists Compound",
   "description": "Extension allows to define cascading behavior for picklists in work item form.",
   "categories": ["Azure Boards"],
